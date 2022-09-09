@@ -1,0 +1,620 @@
+drop table if exists Sequence;
+drop table if exists FillGap;
+drop table if exists MultipleChoice;
+drop table if exists TrueFalse;
+drop table if exists TestHistory;
+drop table if exists ExerciseHistory;
+drop table if exists Questions;
+drop table if exists Users;
+
+create table Users
+(
+  first_name varchar(30) not null,
+  last_name varchar(20) not null,
+  username varchar(30) not null,
+  hashed_password varchar(88) not null,
+  salt varchar(44) not null,
+  teacher boolean not null,
+  primary key(username)
+);
+
+create table Questions
+(
+  id serial,
+  chapter int not null,
+  category int not null,
+  errorType int not null,
+  difficulty int not null,
+  primary key(id)
+);
+
+create table TrueFalse
+(
+  id int not null,
+  question varchar(300) not null,
+  answer boolean not null,
+  primary key(id),
+  foreign key (id) references Questions(id)
+);
+
+
+create table MultipleChoice
+(
+  id int not null,
+  question varchar(300) not null,
+  first varchar(200) not null,
+  second varchar(200) not null,
+  third varchar(200),
+  fourth varchar(200),
+  answer int not null,
+  primary key(id),
+  foreign key (id) references Questions(id)
+);
+
+create table FillGap
+(
+  id int not null,
+  question varchar(300) not null,
+  answer varchar(200) not null,
+  gaps int not null,
+  primary key(id),
+  foreign key (id) references Questions(id)
+);
+
+create table Sequence
+(
+  id int not null,
+  question varchar(300) not null,
+  first varchar(200) not null,
+  second varchar(200) not null,
+  third varchar(200) not null,
+  fourth varchar(200) not null,
+  fifth varchar(200),
+  sixth varchar(200),
+  answer varchar(20) not null,
+  primary key(id),
+  foreign key (id) references Questions(id)
+);
+
+
+
+create table ExerciseHistory
+(
+  username varchar(30),
+  chapter int,
+  difficulty int,
+  id1 int not null,
+  id2 int not null,
+  id3 int not null,
+  id4 int not null,
+  id5 int not null,
+  answer1 boolean not null,
+  answer2 boolean not null,
+  answer3 boolean not null,
+  answer4 boolean not null,
+  answer5 boolean not null,
+  primary key(username, chapter, difficulty),
+  foreign key (username) references Users(username)
+);
+
+
+
+create table TestHistory
+(
+  username varchar(30),
+  date_time varchar(50),
+  id1 int not null,
+  id2 int not null,
+  id3 int not null,
+  id4 int not null,
+  id5 int not null,
+  id6 int not null,
+  id7 int not null,
+  id8 int not null,
+  id9 int not null,
+  id10 int not null,
+  id11 int not null,
+  id12 int not null,
+  answer1 boolean not null,
+  answer2 boolean not null,
+  answer3 boolean not null,
+  answer4 boolean not null,
+  answer5 boolean not null,
+  answer6 boolean not null,
+  answer7 boolean not null,
+  answer8 boolean not null,
+  answer9 boolean not null,
+  answer10 boolean not null,
+  answer11 boolean not null,
+  answer12 boolean not null,
+  primary key(username, date_time),
+  foreign key (username) references Users(username)
+);
+
+
+select * from users; 
+select * from questions;
+select * from truefalse;
+select * from multiplechoice;
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,1,0);
+
+insert into truefalse values(1,'Η μεταβλητή s = "123" είναι τύπου int.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,1,0);
+
+insert into truefalse values(2,'Μια κατηγορία τελεστών είναι οι συγκριτικοί τελεστές.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,0,0);
+
+insert into truefalse values(3,'Η εντολή number <- 58 είναι σωστά διατυπωμένη.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,0,0);
+
+insert into truefalse values(4,'Η πράξη ύψωση σε δύναμη συμβολίζεται με τον τελεστή ^.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,0,0);
+
+insert into truefalse values(5,'Η πράξη του mod (υπόλοιπο ακέραιας διαίρεσης) συμβολίζεται με τον τελεστή %.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,1,0);
+
+insert into truefalse values(6,'Η λογική πράξη and είναι αληθής όταν μια τουλάχιστον από τις προτάσεις που συνδέει είναι αληθής.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,1,0);
+
+insert into truefalse values(7,'Η λογική πράξη or είναι αληθής όταν μια τουλάχιστον από τις προτάσεις που συνδέει είναι αληθής.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,0,0);
+
+insert into truefalse values(8,'Στην Python επιτρέπεται να ξεκινάμε το όνομα μιας μεταβλητής με αριθμό.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,0,0);
+
+insert into truefalse values(9,'Οι συμβολοσειρές είναι μια ακολουθία από χαρακτήρες και μπορεί να αποτελείται από περισσότερες από μία λέξεις.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,1,1,0);
+
+insert into truefalse values(10,'Μετά την εκτέλεση των εντολών x = 10 , x = x ** 2, print x θα εμφανιστεί στην οθόνη η τιμή 10.0.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,2,0);
+
+insert into multiplechoice values(11, 'Για να ελέγξουμε αν ένας θετικός ακέραιος αριθμός x διαιρείται ακριβώς από έναν θετικό ακέραιο y χρησιμοποιούμε την εξής εντολή', 'x // y = 0', 'x % y = 0', 'y % x = 0', 'y // x = 0', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,0,0);
+
+insert into multiplechoice values(12, 'Ποια από τις παρακάτω εκχωρήσεις είναι λανθασμένη;', 'xyzp = 5,000,000', 'x y z p = 5000 6000 7000 8000', 'x,y,z,p = 5000, 6000, 7000, 8000', 'x_y_z_p = 5,000,000', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,1,0);
+
+insert into multiplechoice values(13, 'Ποιο θα είναι το αποτέλεσμα της εντολής: 4 + 3 % 5', '7', '2', '4', '1', 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,1,0);
+
+insert into multiplechoice values(14, 'Ποιο είναι το σύμβολο του τελεστή της διαίρεσης;', '|', '//', '/', '%', 3);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,0,0);
+
+insert into multiplechoice values(15, 'Ποια από τις παρακάτω εντολές έχει ως αποτέλεσμα συντακτικόν λάθος;', '‘”Once upon a time…”, she said.’', '“He said, ‘Yes!’”', '‘3’', '“‘That’s okay”’', 3);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,0,0);
+
+insert into multiplechoice values(16, 'Ποιο είναι το σωστό σύμβολο για τον τελεστή ύψωση σε δύναμη;', 'x^y', 'x**y', 'x^^y', 'Κανένα από τα παραπάνω', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,1,0);
+
+insert into multiplechoice values(17, 'Μαθηματικές πράξεις μπορούν να πραγματοποιηθούν και σε αλφαριθμητικές μεταβλητές.', 'Ναι', 'Όχι', null, null, 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,1,0);
+
+insert into multiplechoice values(18, 'Ποιο είναι το αποτέλεσμα της εντολής 3**3;', '27', '9', '3', null, 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,1,0);
+
+insert into multiplechoice values(19, 'Τι τύπος μεταβλητής θα είναι η μεταβλητή apple στην εντολή apple="true";', 'int', 'string', 'bool', 'float', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,2,1,0);
+
+insert into multiplechoice values(20, 'Τι τύπος μεταβλητής θα είναι η μεταβλητή apple στην εντολή apple=true;', 'int', 'string', 'bool', 'float', 3);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,1,0);
+
+insert into truefalse values(21,'Σε μια δομή επιλογής, το μπλοκ εντολών εκτελείται όταν η συνθήκη είναι Αληθής.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,1,0);
+
+insert into truefalse values(22,'Σε μια δομή επιλογής, το μπλοκ εντολών εκτελείται όταν η συνθήκη είναι Ψευδής.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,1,0);
+
+insert into truefalse values(23,'Υπάρχουν 3 διαφορετικές περιπτώσεις δομής επιλογής.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,0,0);
+
+insert into truefalse values(24,'Στην python η σύνταξη της δομής επιλογής έχει την εξής μορφή: if <συνθήκη> { μπλοκεντολών }.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,0,0);
+
+insert into truefalse values(25,'Στην python η σύνταξη της δομής επιλογής έχει την εξής μορφή: if <συνθήκη>: μπλοκεντολών.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,2,0);
+
+insert into truefalse values(26,'Σε μια δομή επιλογής μπορεί να παραληφθεί η επιλογή else.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,1,0);
+
+insert into truefalse values(27,'Σε μια δομή επιλογής, υπάρχει περίπτωση σε εκτελεστούν παραπάνω από ένα μπλοκ εντολών.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,0,0);
+
+insert into truefalse values(28,'Στην python η εντολή αλλιώς αν γράφεται ως εξής: else if.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,1,0);
+
+insert into truefalse values(29,'Στο παρακάτω τμήμα κώδικα το μπλοκ εντολών θα εκτελεστεί όταν η μεταβλητή flag λάβει την τιμή true. if flag != true: ',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,1,1,0);
+
+insert into truefalse values(30,'Στο παρακάτω τμήμα κώδικα το μπλοκ εντολών θα εκτελεστεί όταν η μεταβλητή flag λάβει την τιμή true. if flag == true:',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,0,0);
+
+insert into multiplechoice values(31, 'Στην python το αλλιώς αν (δεύτερη περίπτωση δομής επιλογής) συμβολίζεται με:', 'else if', 'elif', 'if else', 'elseif', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,1,0);
+
+insert into multiplechoice values(32, 'Τι θα τυπώσει το παρακάτω τμήμα κώδικα:@a,b,c=1,2,3@if a>b: print "A"@elif b>c: print "B"@elif c>a: print "C"@elif b>a: print "D"@elif c>b: print "E"@else: print "F"', 'A', 'D', 'B', 'C', 4);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,1,0);
+
+insert into multiplechoice values(33, 'Τι θα τυπώσει το παρακάτω τμήμα κώδικα:@a,b=1,2@c=a+b3@if c>1: print "A"@elif c>3: print "B"@else: print "C"', 'B', 'C', 'A', null, 3);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,1,0);
+
+insert into multiplechoice values(34, 'Τι θα τυπώσει το παρακάτω τμήμα κώδικα:@a,b,c=1,2,3@d=b**c@d=d-bc@d=d+b/c@if d>2: e=c%2@else: e=b%2@print e', '4', '1', '2', '3', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,1,0);
+
+insert into multiplechoice values(35, 'Τι θα τυπώσει το παρακάτω τμήμα κώδικα:@a = 3@if a > 0: print "θετικός"@elif a < 0: print "αρνητικός"@else: print "μηδέν"', 'μηδέν', 'θετικός', 'αρνητικός', null, 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,0,0);
+
+insert into multiplechoice values(36, 'Mπορούμε να γράψουμε μια εντολή if/else (αν, αλλιώς) σε μια γραμμή στην python;', 'Ναι', 'Όχι', 'Η εντολή if/else δεν υπάρχει στην python', 'Κανένα από τα παραπάνω', 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,0,0);
+
+insert into multiplechoice values(37, 'Ποιο από τα παρακάτω έχει σωστή σύνταξη:', 'if a>=2 :', ' if (a >= 2)', ' if (a => 22)', 'if a >= 22', 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,1,0);
+
+insert into multiplechoice values(38, 'Τι θα τυπώσει το παρακάτω τμήμα κώδικα:@if 1 + 3 == 7:@print("Hello")@else:@print("Know Program")', 'Hello', 'Know Program', 'Compiled Successfully, No Output.', 'Error', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,1,0);
+
+insert into multiplechoice values(39, 'Ποιο από τα παρακάτω είναι αληθές για το τμήμα κώδικα:@x = 3@if (x > 2):@x = x * 2;@if (x > 4):@x = 0;@print(x)', 'x=0 για οποιοδήποτε x', 'Η τιμή του x θα διπλασιαστεί', 'Αν x>2, τότε x=0', null, 3);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,2,1,0);
+
+insert into multiplechoice values(40, 'Δεδομένου του κώδικα παρακάτω, ποια γραμμή εκτελείται μετά την εκτέλεση της γραμμής 2;@x = 4@if x < 3:@print ("x is less than 3")@print ("All done")', 'γραμμή 3', 'γραμμή 4', null, null, 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,1,1);
+
+insert into sequence values(41, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε η μεταβλητή e να πάρει την τιμή 0.', 'a,b,c=1,2,3', 'd=d+b/c', 'd=b**c', 'else: e=b%2','if d>2: e=c%2','d=d-b*c', '1,3,6,2,5,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,1,1);
+
+insert into sequence values(42, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε η μεταβλητή c να περιέχει το υπόλοιπο της διαίρεσης.', 'c = a/4', 'a = 10', 'c = a%4', 'b = 4',null, null, '2,4,1,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(43, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε η μεταβλητή a να εκτυπώσει την τιμή "apple".', 'a = "a"', 'a = a+ "pple"', 'a = "A"', 'print(a)',null, null, '3,1,2,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(44, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε παίρνει έναν αριθμό, να τον διπλασιάζει και να εμφανίζει το τετράγωνο του.', 'a = a**2', 'a = float(input("Δώσε έναν αριθμό: "))', 'print(a)', 'a = a*2',null, null, '2,4,1,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(45, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε παίρνει έναν αριθμό, να τον διπλασιάζει και να εμφανίζει το κύβο του.', 'print(a)', 'a = float(input("Δώσε έναν αριθμό: "))', 'a = a**3', 'a = a*2',null, null, '2,4,3,1');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(46, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε παίρνει ως είσοδο δύο αριθμούς, να τους πολλαπλασιάζει και να εμφανίζει το κύβο του γινομένου τους.', 'c = a*b', 'a = float(input("Δώσε έναν αριθμό: "))', 'b = float(input("Δώσε ακόμα έναν αριθμό: "))', 'print(d)','d = c**3', null, '2,3,1,5,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(47, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε παίρνει ως είσοδο το ύψος και το βάρος ενός ατόμου και να εμφανίζει το δείκτης μάζας σώματος του.', 'a=float(input("Δώσε ύψος : "))', 'dms=b/a**2', 'b=float(input("Δώσε βάρος: "))', 'print("δείκτης μάζας σώματος =" + dms)',null, null, '1,3,2,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(48, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε η μεταβλητή b να πάρει την τιμή "3abcabcabc".', 'a = 3', 'a = "3"', 'b=a*"abc"','print(b)', 'b = "3"+b', null, '2,1,3,5,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(49, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε να εκτυπωθεί η τιμή True.', 'a = a+3', 'a = (a==8)', 'print(a)', 'a = 5', null, null, '4,1,2,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,3,2,1);
+
+insert into sequence values(50, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά ώστε να εκτυπωθεί η τιμή False.', 'a = a+3', 'a = (a==b)', 'print(a)', 'a = 5', 'b = a', null, '4,5,1,2,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(51, 'Δημιούργησε μία μεταβλητή με όνομα carname και δώσε της τιμή Volvo.@__1__ = "__2__"', 'carname,Volvo',2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(52, 'Δημιούργησε μία μεταβλητή με όνομα x και δώσε της τιμή 50.@__1__ = __2__', 'x,50',2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,2,1);
+
+insert into fillgap values(53, 'Εκτύπωσε το άθροισμα του 5 + 10, χρησιμοποιώντας δύο μεταβλητές x και y.@__1__ = __2__@y = 10@print(x __3__ y)', 'x,5,+',3);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(54, 'Δημιούργησε μία μεταβλητή με όνομα z και εκχώρησε το άθροισμα του x + y, και εκτύπωσε το αποτέλεσμα.@x = 5@y = 10@__1__ = x + y@print(__2__)', 'z,z',2);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,0,1);
+
+insert into fillgap values(55, 'Συμπλήρωσε τους κατάλληλους τελεστές ώστε να δώσεις και στις τρεις μεταβλητές την τιμή "Orange".@x __1__ y __2__ z __3__ "Orange"', '=,=,=',3);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(56, 'Ο παρακάτω κώδικας εκτυπώνει τον τύπο της μεταβλητής x. Τι τύπο θα εκτυπώσει;@x = 5@print(type(x))@__1__', 'int',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(57, 'Ο παρακάτω κώδικας εκτυπώνει τον τύπο της μεταβλητής x. Τι τύπο θα εκτυπώσει;@x = "Hello World"@print(type(x))@__1__', 'string',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(58, 'Ο παρακάτω κώδικας εκτυπώνει τον τύπο της μεταβλητής x. Τι τύπο θα εκτυπώσει;@x = 20.5@print(type(x))@__1__', 'float',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(59, 'Ο παρακάτω κώδικας εκτυπώνει τον τύπο της μεταβλητής x. Τι τύπο θα εκτυπώσει;@x = True@print(type(x))@__1__', 'bool',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(1,4,1,1);
+
+insert into fillgap values(60, 'Ο παρακάτω κώδικας εκτυπώνει τον τύπο της μεταβλητής x. Τι τύπο θα εκτυπώσει;@x = (5 != 5)@print(type(x))@__1__', 'bool',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(61, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί το "Hello World" αν το a είναι μεγαλύτερο του b@a = 50@b = 10@__1__ a __2__ b __3__@print("Hello World")', 'if,>,:',3);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(62, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί το "Hello World" αν το a είναι διάφορο του b@a = 50@b = 10@__1__ a __2__ b __3__@print("Hello World")', 'if,!=,:',3);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(63, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί "Yes" αν το a είναι ίσο του b, αλλιώς να εκτυπωθεί "No"@a = 50@b = 10@__1__ a __2__ b __3__@print("Yes")@__4__@print("No")', 'if,==,:,else:',4);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(64, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί "1" αν το a είναι ίσο του b,"2" αν το a είναι μεγαλύτερο του b, αλλιώς "3"@a = 50@b = 10@if a __1__ b:@print("1")@__2__ a __3__ b:@print("2")@__4__@print("3")', '==,elif,>,else:',4);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(65, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί "Hello" αν το a είναι ίσο του b και το c είναι ίσο με το d@if a == b __1__ c == d:@print("Hello")', 'and',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(66, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί "Hello" αν το a είναι ίσο του b ή το c είναι ίσο με το d@if a == b __1__ c == d:@print("Hello")', 'or',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(67, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί "Άρτιος" αν το a είναι άρτιος αριθμός.@if a __1__ 2 __2__ 0:@print("Άρτιος")', '%,==',2);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(68, 'Συμπλήρωσε τα κενά ώστε να εκτυπωθεί "Περιττός" αν το a είναι περιττός αριθμός.@if a __1__ 2 __2__ 0:@print("Περιττός")', '%,!=',2);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(69, 'Συμπλήρωσε τα κενά.@a = __1__ ("Δώσε έναν ακέραιο αριθμό: ")@if __2__ :@print("Άρτιος")@__3__ __4__ :@print("Περιττός")', 'input,a%2==0,elif,a%2==1',4);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,4,2,1);
+
+insert into fillgap values(70, 'Συμπλήρωσε τα κενά.@a = __1__ ("Δώσε έναν αριθμό: ")@if __2__ :@print("Θετικός")@elif __3__ :@print("Αρνητικός")@__4__:@print("Μηδέν")', 'input,a>0,a<0,else',4);
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(71, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'print("Αρνητικός")', 'print("Θετικός")', 'a = int(input("Δώσε έναν αριθμό: "))', 'else: print("Μηδέν")','if a < 0:', 'elif a > 0:', '3,5,1,6,2,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(72, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'print("Είμαι αληθής")', 'print("Είμαι ψευδής")', 'if a == True:', 'else:', null, null, '3,1,4,2');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(73, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'print("Είμαι αληθής")', 'print("Είμαι ψευδής")', 'if a != True:', 'else:', null, null, '3,2,4,1');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(74, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'if a >= 18:', 'a = int(input("Δώσε μου την ηλικία σου: "))', 'print("Δεν είσαι ενήλικας")', 'else:', 'print("Είσαι ενήλικας")', null, '2,1,5,4,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(75, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'print("Μεγαλύτερος: ", m)', 'if a1 > a2:', 'm=a2', 'else:', 'a1, a2 = input( "Δώσε 2 αριθμούς: ").split(",")', 'm=a1', '5,2,6,4,3,1');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(76, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'dms = b/y**2', 'b,y = input("Δώσε βάρος και ύψος:  ").split(",")', 'print("Υπέρβαρο") ', 'if dms > 18.5 and dms < 25:', 'elif dms > 25 and dms <30:', 'print("Φυσιολογικό")', '2,1,4,6,5,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(77, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'if uv < 11:', 'if uv < 6:', 'print("ελάχιστος ή μικρός κίνδυνος")', 'print("μεγάλος ή πολύ μεγάλος κίνδυνος")', 'uv = input("Δώσε έκθεση σε UV: ")', null, '5,2,3,1,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(78, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'print("Μικρότερος: ", m)', 'if a1 < a2:', 'm=a2', 'else:', 'a1, a2 = input( "Δώσε 2 αριθμούς: ").split(",")', 'm=a1', '5,2,6,4,3,1');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(79, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'print("Απόλυτη τιμή αριθμού: ", a)', 'a = (-1) * a', 'a = int(input ("Δώσε αριθμό: "))', 'if a < 0:', null, null, '3,4,2,1');
+
+insert into questions(chapter,category,errortype,difficulty) values(2,3,1,1);
+
+insert into sequence values(80, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'if a % 2 == 0:', 'else:', 'print("περιττός")', 'a = int(input("Δώσε ακέραιο αριθμό: "))', 'print("άρτιος")', null, '4,1,5,2,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(81,'Στην Python τα for loops εκτελούν συγκεκριμένο αριθμό επαναλήψεων.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(82,'Στην Python τα while loops εκτελούν συγκεκριμένο αριθμό επαναλήψεων.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(83,'Στην Python τα for loops μπορούν να γραφτούν ως while loops.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(84,'Στην Python τα while loops μπορούν να γραφτούν ως for loops.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(85,'Η εντολή for i in range(5): θα εκτελεστεί πέντε φορές.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(86,'Η εντολή for i in range(1,5): θα εκτελεστεί πέντε φορές.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,0,0);
+
+insert into truefalse values(87,'Στην Python η σύνταξη ενός for loop είναι for (int i=0; i<10; i++):.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,0,0);
+
+insert into truefalse values(88,'Στην Python η σύνταξη ενός for loop είναι for i in range(10):.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(89,'Στην Python για να τερματιστεί ένα while loop πρέπει η συνθήκη να γίνει false.',true);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,1,1,0);
+
+insert into truefalse values(90,'Στην Python για να τερματιστεί ένα while loop πρέπει η συνθήκη να γίνει true.',false);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(91, 'Ποιο είναι το αποτέλεσμα του παρακάτω κώδικα:@number = 5@while number <= 5:@ if number < 5:@  number = number + 1@ print(number)', 'Η επανάληψη θα εκτελείται για πάντα', 'Η εκτύπωση θα εκτελεστεί ακριβώς μία φορά', 'Η επανάληψη δεν θα εκτελεστεί ποτέ', 'Η εκτύπωση θα εκτελεστεί ακριβώς 5 φορές', 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(92, 'Ποιο είναι το αποτέλεσμα του παρακάτω κώδικα:@counter = 1@sum = 0@while counter <= 6:@ sum = sum + counter@ counter = counter + 2@print(sum)', '12', '9', '7', '8', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(93, 'Ποιο είναι το αποτέλεσμα του παρακάτω κώδικα:@sum = 0@values = [1,3,5,7]@for number in values:@ sum = sum + number@print(sum)', '4', '0', '7', '16', 4);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(94, 'Ποια θα είναι η τελευταία εκτύπωση του παρακάτω κώδικα:@number = 0@while number <= 10:@ print("Number: ", number)@ number = number + 1', 'Number: 10', 'Number: number', 'Number: 0', 'Number: 11', 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(95, 'Ποιο είναι το αποτέλεσμα του παρακάτω κώδικα:@output = ""@x = -5@while x < 0:@ x = x + 1@ output = output + str(x) + " "@print(output)', '5 4 3 2 1', '-4 -3 -2 -1 0', '-5 -4 -3 -2 -1', 'Ατέρμων επανάληψη. Δεν εκτυπώνεται τίποτα', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(96, 'Ποια θα είναι η τελευταία εκτύπωση του παρακάτω κώδικα:@output = ""@var1 = -2@var2 = 0@while var1 != 0:@ var1 = var1 + 1@ var2 = var2 - 1@print("var1: " + str(var1) + " var2 " + str(var2))', 'var1 = -2, var2 = 0', 'var1 = 0, var2 = -2', 'var1 = 0, var2 = -1', 'Ατέρμων επανάληψη. Δεν εκτυπώνεται τίποτα', 2);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(97, 'Πόσα αστεράκια θα εκτυπωθούν με την εκτέλεση του παρακάτω κώδικα:@for x in [0, 1, 2, 3]:@var1 = -2@ for y in [0, 1, 2, 3, 4]:@  print("*")', '0', '4', '20', '5', 3);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(98, 'Ποιος τύπος βρόχου μπορεί να χρησιμοποιηθεί για την εκτέλεση της ακόλουθης επανάληψης: Επιλέγετε τυχαία έναν θετικό ακέραιο και, στη συνέχεια, εκτυπώνετε τους αριθμούς από το 1 έως και τον επιλεγμένο ακέραιο.', 'ένα for-loop ή ένα while-loop', 'μόνο for-loop', 'μόνο while-loop', null, 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(99, 'Τι δεν θα εκτυπωθεί μετά την εκτέλεση του παρακάτω κώδικα:@for letter in "Python":@ if letter == "h":@  continue@ print("Current Letter : " + letter)', 'Current Letter : P', 'Current Letter : t', 'Current Letter : h', 'Current Letter : o', 3);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,2,1,0);
+
+insert into multiplechoice values(100, 'Ποιο είναι το αποτέλεσμα του παρακάτω κώδικα:@i = 0@while i < 3:@ print("hi")@ i= i + 1', 'hi hi hi', 'hi hi', 'hi', null, 1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,0,1);
+
+insert into fillgap values(101, 'Συμπλήρωσε τα κενά, ώστε να εκτυπωθεί το i όσο είναι μικρότερο από 6.@i = 1@__1__ i < 6__2__@ print(i)@ i += 1', 'while,:',2);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(102, 'Συμπλήρωσε τα κενά, ώστε να σταματήσει η επανάληψη όταν το i είναι ίσο με 3.@i = 1@while i < 6:@ if i == 3:@  __1__@ i += 1', 'break',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(103, 'Συμπλήρωσε τα κενά, ώστε όταν το i είναι ίσο με 3 να πάει απευθείας στην επόμενη επανάληψη.@i = 0@while i < 6:@ i += 1@ if i == 3:@  __1__@ print(i)', 'continue',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(104, 'Συμπλήρωσε τα κενά, ώστε να εκτυπωθεί ένα μήνυμα όταν η συνθήκη είναι ψευδής.@i = 1@while i < 6:@ print(i)@ i += 1@__1__@ print("i is no longer less than 6")', 'else:',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,0,1);
+
+insert into fillgap values(105, 'Συμπλήρωσε τα κενά, ώστε να εκτυπωθούν τα περιεχόμενα της λίστας.@fruits = ["apple", "banana", "cherry"]@__1__ x __2__ fruits__3__@ print(x)', 'for,in,:',3);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(106, 'Συμπλήρωσε τα κενά, ώστε όταν το x είναι ίσο με "banana" να πάει απευθείας στην επόμενη επανάληψη.@fruits = ["apple", "banana", "cherry"]@for x in fruits:@ if x == "banana":@  __1__@ print(x)', 'continue',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(107, 'Συμπλήρωσε τα κενά, ώστε χρησιμοποιώντας την συνάρτηση range να εκτελεστούν 6 επαναλήψεις.@for x in __1__:@ print(x)', 'range(6)',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(108, 'Συμπλήρωσε τα κενά, ώστε όταν το x είναι ίσο με "banana" να τερματιστεί η επανάληψη.@fruits = ["apple", "banana", "cherry"]@for x in fruits:@ if x == "banana":@  __1__@ print(x)', 'break',1);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(109, 'Συμπλήρωσε τα κενά, ώστε να εκτυπωθεί μέχρι και ο αριθμός 6.@x = 0@__1__ x __2__ 8:@ print(x)@ x = x + 2', 'while,!=',2);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,4,2,1);
+
+insert into fillgap values(110, 'Συμπλήρωσε τα κενά, ώστε να εκτυπωθεί το άθροισμα των περιττών μεταξύ 0 και 20.@s = 0@for i in __1__(1,20,__2__):@ s = __3__ + i@print(__4__)', 'range,2,s,s',4);
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(111, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'for i in range(20):', 's = s + h', 'print("Μέσος όρος ηλικίας:", mo)', 's = 0','h = float(input("Δώσε ηλικία:"))', 'mo = s / 20', '4,1,5,2,6,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(112, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 's = s + num', 'for i in range(5):', 'num = int(input("Δώσε αριθμό: "))', 's = 0', 'print("Άθροισμα: ",s)', null, '4,2,3,1,5');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(113, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'for i in range(10):', 'm = 1000', 'print(m)', 'm = m + m*3/100.0', null, null, '2,1,4,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(114, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά. Η εισαγωγή αριθμών σταματά όταν το άθροισμα ξεπεράσει το 200.', 's = 0', 'a = int(input("Δώσε αριθμό:"))', 'print(s)', 's = s + a', 'while s <= 200:', null, '1,5,2,4,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(115, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά. Το πρόγραμμα διαβάζει έναν θετικό ακέραιο κ και υπολογίζει την παράσταση Π=2+4+...(2κ+2). Σημείωση, να οριστεί πρώτα το s.', 'for i in range(0,k+1):', 'k = int(input("Δώσε ακέραιο κ: "))', 's = 0', 'print(s)', 's = s + 2 * i + 2', null, '3,2,1,5,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(116, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά. Το πρόγραμμα διαβάζει έναν θετικό ακέραιο κ και υπολογίζει την παράσταση Π=3x6x…3k. Σημείωση, να οριστεί πρώτα το p.', 'p = 1', 'for i in range(1,k+1):', 'p = p * 3 * i', 'k = int(input("Δώσε ακέραιο κ: "))', 'print(p)', null, '1,4,2,3,5');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(117, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά. Το πρόγραμμα διαβάζει έναν θετικό ακέραιο κ και υπολογίζει την παράσταση Π=1/2+1/3+…+1/κ, (κ ≥ 2). Σημείωση, να οριστεί πρώτα το s.', 'print(s)', 's = s + 1.0 / i', 's = 0', 'for i in range(2,k+1):', 'k = int(input("Δώσε ακέραιο κ (k>=2): "))', null, '3,5,4,2,1');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(118, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά. Το πρόγραμμα διαβάζει έναν θετικό ακέραιο κ και υπολογίζει την παράσταση  Π=1/2+1/4+…+1/(2*κ), (κ ≥ 1). Σημείωση, να οριστεί πρώτα το s.', 's = s + 1.0 / 2 ** i', 'k = int(input("Δώσε ακέραιο κ (k>=1): "))', 's = 0', 'print(s)', 'for i in range(1,k+1):', null, '3,2,5,1,4');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(119, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 's = s + i', 's = 0', 'print(s)', 'for i in range(10,20+1,2):', null, null, '2,4,1,3');
+
+insert into questions(chapter,category,errortype,difficulty) values(3,3,1,1);
+
+insert into sequence values(120, 'Τοποθέτησε τα παρακάτω τμήματα κώδικα στη σωστή σειρά.', 'p = 1', 'num = int(input("Δώσε αριθμό: "))', 'print("Γινόμενο: ", p)', 'for i in range(5):', 'p = p * num', null, '1,4,2,5,3');
+
+

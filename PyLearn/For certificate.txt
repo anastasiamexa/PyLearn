@@ -1,0 +1,1 @@
+PS C:\> New-SelfSignedCertificate -DnsName "www.pylearn.com" -CertStoreLocation "cert:\LocalMachine\My"
